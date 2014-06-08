@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Страница регистрации</title>
+</h:head>
+
+<h:body>
+    <h:outputStylesheet library="primefaces" name="primefaces.css"/>
+    <ui:composition template="templateFile.xhtml">
+        <ui:define name="content">
+            <h:form>
+                <f:validateBean>
+                    <p:panel style="position: relative; left: 615px; width: 500px; background-color: beige"
+                             styleClass="elementbrddarslmon">
+                        <p:panelGrid columns="2" columnClasses="greenback" styleClass="greenback, elementbckgrdbeige">
+                            <p:outputLabel value="Логин:"/>
+                            <p:inputText id="loginReg" value="#{registerBean.login}"/>
+                            <p:outputLabel value="Пароль:"/>
+                            <p:password id="passwordReg" value="#{registerBean.password}"/>
+                            <p:outputLabel value="Повторение пароля:"/>
+                            <p:password id="repeatPasswordReg" value="#{registerBean.repeatPassword}"/>
+                            <p:outputLabel value="Фамилия:"/>
+                            <p:inputText id="surname" value="#{registerBean.surname}"/>
+                            <p:outputLabel value="Имя:"/>
+                            <p:inputText id="name" value="#{registerBean.name}"/>
+                            <p:outputLabel value="Отчество:"/>
+                            <p:inputText id="patronymic" value="#{registerBean.patronymic}"/>
+                            <p:outputLabel value="Дата рождения:"/>
+                            <p:inputText id="birthDate" value="#{registerBean.dateOfBirth}"
+                                converterMessage="Дата рождения должна иметь формат ДД-ММ-ГГГГ">
+                                <f:convertDateTime pattern="dd-MM-yyyy"/>
+                            </p:inputText>
+                        </p:panelGrid>
+                        <br/>
+                        <h:commandButton id="btreg" value="Зарегистрироваться" style="position: relative; left: 100px"
+                                         action="#{registerBean.register()}"
+                                         styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"/>
+                        <br/>
+                        <br/>
+                        <p:message for="loginReg"/>
+                        <p:message for="passwordReg"/>
+                        <p:message for="repeatPasswordReg"/>
+                        <p:message for="surname"/>
+                        <p:message for="name"/>
+                        <p:message for="patronymic"/>
+                        <p:message for="birthDate"/>
+                    </p:panel>
+                </f:validateBean>
+            </h:form>
+            <h:form>
+                <br/>
+                <br/>
+                <h:commandLink value="Вернуться на главную" action="index" style="position: relative; left: 745px"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</h:body>
+
+</html>

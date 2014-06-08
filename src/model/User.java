@@ -30,6 +30,15 @@ public class User implements Serializable {
 
 	private String surname;
 
+    public User(String login, String password, String surname, String name, String patronymic, int age){
+        this.login = login;
+        this.password = password;
+        this.surname = surname;
+        this.name = name;
+        this.patronymic = patronymic;
+        this.age = age;
+    }
+
 	//bi-directional one-to-one association to Bill
 	@OneToOne
 	@JoinColumn(name="bill_id")

@@ -15,6 +15,11 @@ import java.util.List;
 public class Bill implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+    public Bill(int count, Date date){
+        this.count = count;
+        this.date = date;
+    }
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;

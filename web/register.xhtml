@@ -20,6 +20,8 @@
         <ui:define name="content">
             <h:form>
                 <f:validateBean>
+                    <f:event type="postValidate" listener="#{registerBean.validatePassword}"/>
+                    <f:event type="postValidate" listener="#{registerBean.validateNoExistingOfLogin}"/>
                     <p:panel style="position: relative; left: 615px; width: 500px; background-color: beige"
                              styleClass="elementbrddarslmon">
                         <p:panelGrid columns="2" columnClasses="greenback" styleClass="greenback, elementbckgrdbeige">

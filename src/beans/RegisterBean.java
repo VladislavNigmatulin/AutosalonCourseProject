@@ -1,9 +1,11 @@
 package beans;
 
 import ejb.UserEJBBeanLocal;
+import model.User;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
@@ -11,11 +13,12 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Named;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.Date;
 
 @Named
-@RequestScoped
-public class RegisterBean {
+@SessionScoped
+public class RegisterBean implements Serializable {
 
     @EJB
     private UserEJBBeanLocal userEJBBean;
@@ -45,6 +48,9 @@ public class RegisterBean {
     }
 
     public String register(){
+        int age = 0;
+        User user = new User(login, password, surname, name, patronymic, age);
+        userEJBBean.registerNewClient(user);
         return "index";
     }
 
@@ -125,5 +131,23 @@ public class RegisterBean {
             fc.addMessage(passwordId, msg);
             fc.renderResponse();
         }
+    }
+
+    public void validateNoExistingOfLogin(ComponentSystemEvent event)
+    {
+        FacesContext fc = FacesContext.getCurrentInstance();
+        UIComponent components = event.getComponent();
+        UIInput uiInputLogin = (UIInput) components.findComponent("loginReg");
+        String login = uiInputLogin.getLocalValue() == null ? ""
+                : uiInputLogin.getLocalValue().toString();
+        String loginId = uiInputLogin.getClientId();
+        if (userEJBBean.checkUserWithSameLogin(login))
+        {
+            FacesMessage msg = new FacesMessage("Пользователь с таким логином уже зарегистрирован");
+            msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+            fc.addMessage(loginId, msg);
+            fc.renderResponse();
+        }
+
     }
 }

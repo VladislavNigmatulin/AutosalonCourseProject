@@ -13,6 +13,11 @@ import javax.persistence.*;
 public class History implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+    public History(String operation, int sum){
+        this.operation = operation;
+        this.sum = sum;
+    }
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;

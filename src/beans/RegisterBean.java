@@ -48,9 +48,14 @@ public class RegisterBean implements Serializable {
     }
 
     public String register(){
-        int age = 0;
+        int age = userEJBBean.getDifferenceBeetweenTwoDates(dateOfBirth);
         User user = new User(login, password, surname, name, patronymic, age);
         userEJBBean.registerNewClient(user);
+        login = "";
+        surname = "";
+        name = "";
+        patronymic = "";
+        dateOfBirth = null;
         return "index";
     }
 

@@ -4,7 +4,6 @@ import model.Bill;
 import model.History;
 import model.Role;
 import model.User;
-
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -12,8 +11,11 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Stateless
 public class UserEJBBean implements UserEJBBeanLocal{
@@ -73,7 +75,7 @@ public class UserEJBBean implements UserEJBBeanLocal{
         bill = emU.merge(bill);
         user.setBill(bill);
         user = emU.merge(user);
-        Role clientRole = getClientRole();
+        Role clientRole = getClientRole("Клиент");
         user.getRoles().add(clientRole);
         clientRole.getUsers().add(user);
         emU.persist(user);
@@ -83,14 +85,29 @@ public class UserEJBBean implements UserEJBBeanLocal{
      * Поиск роли "Клиент"
      * @return - роль Клиент
      */
-    private Role getClientRole(){
+    @Override
+    public Role getClientRole(String roleTitle){
         CriteriaQuery<Role> criteriaQuery = emU.getCriteriaBuilder().createQuery(Role.class);
         Root roleRoot = criteriaQuery.from(Role.class);
-        Predicate predicate1 = roleRoot.get("title").in("Клиент");
+        Predicate predicate1 = roleRoot.get("title").in(roleTitle);
         criteriaQuery.select(roleRoot).where(predicate1);
         Role clientRole = emU.createQuery(criteriaQuery).getSingleResult();
         return clientRole;
     }
 
+    /**
+     * Подсчет разницы в годах между текущей датой и датой рождения (jodaTime не работает в EJB =((( )
+     * @param date = дата рождения
+     * @return
+     */
+    @Override
+    public int getDifferenceBeetweenTwoDates(Date date){
+        Format formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String dateString = formatter.format(date);
+        String[] mas = dateString.split(Pattern.quote("-"));
+        int yearOfBirhtday = Integer.parseInt(mas[0]);
+        int years = 1900 + new Date().getYear() - yearOfBirhtday;
+        return years;
+    }
 
 }

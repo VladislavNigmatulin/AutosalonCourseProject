@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+    <title>Страница просмотра дилеров</title>
+</h:head>
+
+<h:body>
+    <ui:composition template="templateFile.xhtml">
+        <ui:define name="content">
+            <h:form id="form">
+                <p:dataTable var="diler" value="#{showDealersBean.listOfDilers}">
+                    <p:column headerText="Название">
+                        #{diler.title}
+                    </p:column>
+                    <p:column headerText="Страна">
+                        #{diler.country}
+                    </p:column>
+                    <p:column headerText="Город">
+                        #{diler.city}
+                    </p:column>
+                    <p:column headerText="EMail">
+                        #{diler.email}
+                    </p:column>
+                    <p:column style="width: 10%; text-align: center">
+                        <p:commandButton update=":form:dilerDetail" oncomplete="PF('dilerDialog').show()"
+                                         icon="ui-icon-search" title="Просмотр информации">
+                            <f:setPropertyActionListener value="#{diler}" target="#{showDealersBean.selectedDiler}" />
+                        </p:commandButton>
+                    </p:column>
+                    <p:column style="width: 10%; text-align: center">
+                        <h:commandButton value="Посмотреть модели" action="#{showDealersBean.showModelsOfConcretDiler(diler)}"
+                            styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"/>
+                    </p:column>
+                </p:dataTable>
+            <p:dialog header="Информация о дилере" widgetVar="dilerDialog" modal="true"
+                      showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="dilerDetail" style="text-align: center">
+                    <p:panelGrid columns="2" rendered="#{not empty showDealersBean.selectedDiler}">
+                        <h:outputText value="Название:"/>
+                        <h:outputText value="#{showDealersBean.selectedDiler.title}"/>
+                        <h:outputText value="Страна:"/>
+                        <h:outputText value="#{showDealersBean.selectedDiler.country}"/>
+                        <h:outputText value="Город:"/>
+                        <h:outputText value="#{showDealersBean.selectedDiler.city}"/>
+                        <h:outputText value="Адрес:"/>
+                        <h:outputText value="#{showDealersBean.selectedDiler.address}"/>
+                        <h:outputText value="Номер телефона:"/>
+                        <h:outputText value="#{showDealersBean.selectedDiler.phone}"/>
+                        <h:outputText value="EMail:"/>
+                        <h:outputText value="#{showDealersBean.selectedDiler.email}"/>
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:dialog>
+            </h:form>
+            <br/>
+            <h:form>
+                <h:commandLink value="Вернуться назад" action="managerPage"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</h:body>
+
+</html>

@@ -30,6 +30,8 @@ public class Diler implements Serializable {
 
 	private String title;
 
+    private String image;
+
 	//bi-directional many-to-one association to Model
 	@OneToMany(mappedBy="diler")
 	private List<Model> models;
@@ -101,4 +103,11 @@ public class Diler implements Serializable {
 		this.models = models;
 	}
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 }

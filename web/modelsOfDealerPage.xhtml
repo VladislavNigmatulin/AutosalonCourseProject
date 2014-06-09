@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+    <title>Модели дилера</title>
+</h:head>
+
+<h:body>
+    <ui:composition template="templateFile.xhtml">
+        <ui:define name="content">
+            <h:form>
+                <p:commandButton value="Вернуться к списку дилеров" icon="ui-icon-circle-arrow-w"
+                                 action="#{showDealersBean.toToDilerPage()}"/>
+            </h:form>
+            <br/>
+            <p:outputPanel style="text-align: left; width: 30%">
+                <p:panelGrid columns="2" rendered="#{not empty showDealersBean.selectedDiler}">
+                    <h:outputText value="Название:"/>
+                    <h:outputText value="#{showDealersBean.selectedDiler.title}"/>
+                    <h:outputText value="Страна:"/>
+                    <h:outputText value="#{showDealersBean.selectedDiler.country}"/>
+                    <h:outputText value="Город:"/>
+                    <h:outputText value="#{showDealersBean.selectedDiler.city}"/>
+                    <h:outputText value="Адрес:"/>
+                    <h:outputText value="#{showDealersBean.selectedDiler.address}"/>
+                    <h:outputText value="Номер телефона:"/>
+                    <h:outputText value="#{showDealersBean.selectedDiler.phone}"/>
+                    <h:outputText value="EMail:"/>
+                    <h:outputText value="#{showDealersBean.selectedDiler.email}"/>
+                </p:panelGrid>
+            </p:outputPanel>
+            <br/>
+            <h:form>
+                <p:dataTable value="#{showDealersBean.listOfModels}" var="model" style="width: 30%">
+                    <p:column headerText="Модель">
+                        <h:outputText value="#{model.title}"/>
+                    </p:column>
+                    <p:column style="width: 8%">
+                        <h:commandButton value="В наличии" action="#{showDealersBean.showCarsForModels(model)}"
+                                         styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+            <br/>
+            <br/>
+        </ui:define>
+    </ui:composition>
+</h:body>
+
+</html>

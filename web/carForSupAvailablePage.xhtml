@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+    <title>Автомобили в наличии</title>
+</h:head>
+
+<h:body>
+    <ui:composition template="templateFile.xhtml">
+        <ui:define name="content">
+            <h:form id="form">
+                <p:graphicImage value="resources/images/#{showDealersBean.selectedDiler.image}  "/>
+                <p:carousel value="#{showDealersBean.listOfCars}" headerText="Автомобили в наличии" var="car">
+                    <h:panelGrid columns="2" cellpadding="5" style="border: 1px">
+                        <h:outputText value="Дилер "/>
+                        <h:outputText value="#{showDealersBean.selectedDiler.title}"/>
+                        <h:outputText value="Модель "/>
+                        <h:outputText value="#{showDealersBean.selectedModel.title}"/>
+                        <h:outputText value="Цвет "/>
+                        <h:outputText value="#{car.color}"/>
+                        <h:outputText value="Цена "/>
+                        <h:outputText value="#{car.cost}"/>
+                        <h:outputText value="В наличии "/>
+                        <h:outputText value="#{car.count}"/>
+                    </h:panelGrid>
+                    <h:commandButton value="Перекупить" style="align-content: center"/>
+                </p:carousel>
+            </h:form>
+            <br/>
+            <h:form>
+                <h:commandLink value="Вернуться к просмотру моделей" action="#{showDealersBean.
+                    showModelsOfConcretDiler(showDealersBean.selectedDiler)}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>
+
+
+
+

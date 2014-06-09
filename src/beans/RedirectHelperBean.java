@@ -25,7 +25,7 @@ public class RedirectHelperBean {
         String helpLogon = helpLogon();
         if (helpLogon.equals("success")){
             if (regAndAuthBean.getPermissions().equals("Менеджер"))
-                return "manager/managerPage";
+                return "managerPage";
             else return "accessDenied";
         } else
             return "logon";

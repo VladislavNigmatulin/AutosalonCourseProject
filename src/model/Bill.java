@@ -79,19 +79,4 @@ public class Bill implements Serializable {
 	public void setHistories(List<History> histories) {
 		this.histories = histories;
 	}
-
-	public History addHistory(History history) {
-		getHistories().add(history);
-		history.setBill(this);
-
-		return history;
-	}
-
-	public History removeHistory(History history) {
-		getHistories().remove(history);
-		history.setBill(null);
-
-		return history;
-	}
-
 }

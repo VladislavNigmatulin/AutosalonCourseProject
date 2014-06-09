@@ -21,4 +21,12 @@
         <persistence-context-ref-name>persistence/users</persistence-context-ref-name>
         <persistence-unit-name>UsersPersistenceUnit</persistence-unit-name>
     </persistence-context-ref>
+    <persistence-context-ref>
+        <persistence-context-ref-name>persistence/dilers</persistence-context-ref-name>
+        <persistence-unit-name>DilersPersistenceUnit</persistence-unit-name>
+    </persistence-context-ref>
+    <persistence-context-ref>
+        <persistence-context-ref-name>persistence/autosalons</persistence-context-ref-name>
+        <persistence-unit-name>AutosalonsPersistenceUnit</persistence-unit-name>
+    </persistence-context-ref>
 </web-app>

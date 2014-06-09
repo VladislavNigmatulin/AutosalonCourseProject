@@ -4,6 +4,8 @@ import model.Bill;
 import model.History;
 import model.Role;
 import model.User;
+
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -22,6 +24,9 @@ public class UserEJBBean implements UserEJBBeanLocal{
 
     @PersistenceContext(name = "persistence/users", unitName= "UsersPersistenceUnit")
     private EntityManager emU;
+
+    @EJB
+    private CommonEJBBeanLocal commonEJBBean;
 
     /**
      * Поиск пользователя по логину и паролю
@@ -75,24 +80,10 @@ public class UserEJBBean implements UserEJBBeanLocal{
         bill = emU.merge(bill);
         user.setBill(bill);
         user = emU.merge(user);
-        Role clientRole = getClientRole("Клиент");
+        Role clientRole = commonEJBBean.getRoleByTitle("Клиент");
         user.getRoles().add(clientRole);
         clientRole.getUsers().add(user);
         emU.persist(user);
-    }
-
-    /**
-     * Поиск роли "Клиент"
-     * @return - роль Клиент
-     */
-    @Override
-    public Role getClientRole(String roleTitle){
-        CriteriaQuery<Role> criteriaQuery = emU.getCriteriaBuilder().createQuery(Role.class);
-        Root roleRoot = criteriaQuery.from(Role.class);
-        Predicate predicate1 = roleRoot.get("title").in(roleTitle);
-        criteriaQuery.select(roleRoot).where(predicate1);
-        Role clientRole = emU.createQuery(criteriaQuery).getSingleResult();
-        return clientRole;
     }
 
     /**

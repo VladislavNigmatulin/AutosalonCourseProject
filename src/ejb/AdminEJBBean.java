@@ -15,21 +15,21 @@ public class AdminEJBBean implements AdminEJBBeanLocal {
     @PersistenceContext(name = "persistence/users", unitName= "UsersPersistenceUnit")
     private EntityManager emU;
 
-    public AdminEJBBean(){}
-
     @EJB
-    private UserEJBBeanLocal userEJBBean;
+    private CommonEJBBeanLocal commonEJBBean;
+
+    public AdminEJBBean(){}
 
     @Override
     public List<User> getListOfClients(){
-        Role clientRole = userEJBBean.getClientRole("Клиент");
+        Role clientRole = commonEJBBean.getRoleByTitle("Клиент");
         List<User> listOfClients = clientRole.getUsers();
         return  listOfClients;
     }
 
     @Override
     public List<User> getListOfManagers(){
-        Role managerRole = userEJBBean.getClientRole("Менеджер");
+        Role managerRole = commonEJBBean.getRoleByTitle("Менеджер");
         List<User> listOfManagers = managerRole.getUsers();
         return listOfManagers;
     }

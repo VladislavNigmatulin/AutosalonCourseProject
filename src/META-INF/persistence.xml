@@ -7,4 +7,19 @@
         <class>model.Bill</class>
         <class>model.History</class>
     </persistence-unit>
+    <persistence-unit name="DilersPersistenceUnit" transaction-type="JTA">
+        <jta-data-source>jdbc/dilers</jta-data-source>
+        <class>model.Carforsupply</class>
+        <class>model.Diler</class>
+        <class>model.Model</class>
+        <class>model.Supply</class>
+        <class>model.Trade</class>
+    </persistence-unit>
+    <persistence-unit name="AutosalonsPersistenceUnit" transaction-type="JTA">
+        <jta-data-source>jdbc/autosalons</jta-data-source>
+        <class>model.Autosalon</class>
+        <class>model.Autosalonbill</class>
+        <class>model.Car</class>
+        <class>model.Orderforcar</class>
+    </persistence-unit>
 </persistence>

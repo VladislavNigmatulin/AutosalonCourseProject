@@ -18,8 +18,9 @@
     <ui:composition template="templateFile.xhtml">
         <ui:define name="content">
             <h:form id="form">
-                <p:graphicImage value="resources/images/#{showDealersBean.selectedDiler.image}  "/>
-                <p:carousel value="#{showDealersBean.listOfCars}" headerText="Автомобили в наличии" var="car">
+                <h:graphicImage value="resources/images/#{showDealersBean.selectedDiler.image}"/>
+                <br/>
+                <p:carousel value="#{showDealersBean.listOfCars}" headerText="В наличии" var="car">
                     <h:panelGrid columns="2" cellpadding="5" style="border: 1px">
                         <h:outputText value="Дилер "/>
                         <h:outputText value="#{showDealersBean.selectedDiler.title}"/>

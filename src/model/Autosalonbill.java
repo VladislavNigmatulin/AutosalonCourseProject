@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
 
 
@@ -18,7 +19,7 @@ public class Autosalonbill implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
 
 	private int money;
@@ -30,6 +31,12 @@ public class Autosalonbill implements Serializable {
 
 	public Autosalonbill() {
 	}
+
+    public Autosalonbill(Timestamp date, int money, Autosalon autosalon){
+        this.date = date;
+        this.money = money;
+        this.autosalon = autosalon;
+    }
 
 	public int getId() {
 		return this.id;
@@ -43,7 +50,7 @@ public class Autosalonbill implements Serializable {
 		return this.date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(Timestamp date) {
 		this.date = date;
 	}
 

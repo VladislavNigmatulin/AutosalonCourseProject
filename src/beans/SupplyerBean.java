@@ -1,7 +1,9 @@
 package beans;
 
+import ejb.ManagerEJBBeanLocal;
 import model.Carforsupply;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -19,6 +21,12 @@ import java.util.List;
 public class SupplyerBean implements Serializable {
 
     @Inject
+    private AuthorizationBean authorizationBean;
+
+    @EJB
+    private ManagerEJBBeanLocal managerBean;
+
+    @Inject
     private ShowDealersBean showDealersBean;
 
     private List<Carforsupply> listForSupplies = new ArrayList<Carforsupply>();
@@ -26,6 +34,8 @@ public class SupplyerBean implements Serializable {
     private Carforsupply selectedCarforsupply;
 
     private int newCount;
+
+    private int finalPrice;
 
     public String removeFromListForSupply(Carforsupply carforsupply){
         listForSupplies.remove(carforsupply);
@@ -49,6 +59,12 @@ public class SupplyerBean implements Serializable {
                 return true;
         }
         return false;
+    }
+
+    public String makeOrderForSupply(){
+        managerBean.makeOrderForSupply(authorizationBean.getUserOnline(), listForSupplies);
+        listForSupplies.clear();
+        return "supplyOrderPage";
     }
 
     public String goToOrderPage(){
@@ -91,5 +107,10 @@ public class SupplyerBean implements Serializable {
                 fc.renderResponse();
             }
         }
+    }
+
+    public int getFinalPrice() {
+        finalPrice = managerBean.calculateFinalPriceOfCars(listForSupplies);
+        return finalPrice;
     }
 }

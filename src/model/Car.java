@@ -39,6 +39,14 @@ public class Car implements Serializable {
 	public Car() {
 	}
 
+    public Car(String color, int cost, int count, int modelId, Autosalon autosalon){
+        this.color = color;
+        this.cost = cost;
+        this.count = count;
+        this.modelId = modelId;
+        this.autosalon = autosalon;
+    }
+
 	public int getId() {
 		return this.id;
 	}

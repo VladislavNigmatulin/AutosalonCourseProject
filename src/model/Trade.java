@@ -32,6 +32,12 @@ public class Trade implements Serializable {
 	public Trade() {
 	}
 
+    public Trade(int count, Supply supply, Carforsupply carforsupply){
+        this.count = count;
+        this.supply = supply;
+        this.carforsupply = carforsupply;
+    }
+
 	public int getId() {
 		return this.id;
 	}

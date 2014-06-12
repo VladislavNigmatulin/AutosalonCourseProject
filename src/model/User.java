@@ -48,6 +48,8 @@ public class User implements Serializable {
 	@ManyToMany(mappedBy="users")
 	private List<Role> roles;
 
+    private int autosalon_id;
+
 	public User() {
 	}
 
@@ -123,4 +125,7 @@ public class User implements Serializable {
 		this.roles = roles;
 	}
 
+    public int getAutosalon_id() {
+        return autosalon_id;
+    }
 }

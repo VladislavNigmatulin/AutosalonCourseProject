@@ -17,7 +17,39 @@
 <h:body>
     <ui:composition template="templateFile.xhtml">
         <ui:define name="content">
-
+            <p:outputLabel value="Итоговая цена: #{supplyerBean.finalPrice}"/>
+            <br/>
+            <br/>
+            <p:dataTable var="carSup" value="#{supplyerBean.listForSupplies}"
+                         emptyMessage="Нету автомобилей в корзине" style="width: 70%">
+                <p:column headerText="Дилер">
+                    <p:outputLabel value="#{carSup.model.diler.title}"/>
+                </p:column>
+                <p:column headerText="Модель">
+                    <p:outputLabel value="#{carSup.model.title}"/>
+                </p:column>
+                <p:column headerText="Цвет">
+                    <p:outputLabel value="#{carSup.color}"/>
+                </p:column>
+                <p:column headerText="Цена">
+                    <p:outputLabel value="#{carSup.cost}"/>
+                </p:column>
+                <p:column headerText="Количество" style="width: 15%">
+                    <p:outputLabel value="#{carSup.count}"/>
+                </p:column>
+            </p:dataTable>
+            <br/>
+            <br/>
+            <h:form>
+                <p:commandButton value="Подтвердить заказ" action="#{supplyerBean.makeOrderForSupply()}"
+                                 oncomplete="PF('completeDialog').show()"/>
+                <p:dialog header="Заказ выполнен" widgetVar="completeDialog" modal="true"
+                          showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputLabel value="Ваш заказ успешно выполнен."/>
+                    <br/>
+                    <h:commandLink value="Вернуться на страницу менеджера" action="managerPage"/>
+                </p:dialog>
+            </h:form>
             <br/>
             <h:form>
                 <h:commandLink value="Вернуться к просмотру корзины"

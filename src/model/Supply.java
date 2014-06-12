@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class Supply implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
 
 	private int summaryCost;
@@ -30,6 +31,11 @@ public class Supply implements Serializable {
 
 	public Supply() {
 	}
+
+    public Supply(Timestamp date, int summaryCost){
+        this.date = date;
+        this.summaryCost = summaryCost;
+    }
 
 	public int getId() {
 		return this.id;
@@ -43,7 +49,7 @@ public class Supply implements Serializable {
 		return this.date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(Timestamp date) {
 		this.date = date;
 	}
 

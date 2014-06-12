@@ -33,11 +33,20 @@
                         <h:outputText value="В наличии "/>
                         <h:outputText value="#{car.count}"/>
                     </h:panelGrid>
-                    <h:commandButton value="Перекупить" style="align-content: center"/>
+                    <ui:fragment rendered="#{!supplyerBean.checkFromListForSupply(car)}">
+                        <p:commandButton action="addCarToBasketPage" icon="ui-icon-trash" title="Заказать">
+                            <f:setPropertyActionListener value="#{car}" target="#{supplyerBean.selectedCarforsupply}" />
+                        </p:commandButton>
+                    </ui:fragment>
+                    <ui:fragment rendered="#{supplyerBean.checkFromListForSupply(car)}">
+                        <p:outputLabel value="Уже в корзине"/>
+                    </ui:fragment>
                 </p:carousel>
             </h:form>
             <br/>
             <h:form>
+                <h:commandLink value="Просмотреть корзину" action="basketOfCarsPage"/>
+                <br/>
                 <h:commandLink value="Вернуться к просмотру моделей" action="#{showDealersBean.
                     showModelsOfConcretDiler(showDealersBean.selectedDiler)}"/>
             </h:form>

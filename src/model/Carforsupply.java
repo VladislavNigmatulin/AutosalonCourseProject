@@ -36,6 +36,15 @@ public class Carforsupply implements Serializable {
 	public Carforsupply() {
 	}
 
+    public Carforsupply(int id, String color, int cost, int count, Model model, List<Trade> trades){
+        this.id = id;
+        this.color = color;
+        this.cost = cost;
+        this.count = count;
+        this.model = model;
+        this.trades = trades;
+    }
+
 	public int getId() {
 		return this.id;
 	}

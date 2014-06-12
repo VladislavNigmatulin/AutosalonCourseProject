@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Корзина автомобилей</title>
+</h:head>
+
+<h:body>
+    <ui:composition template="templateFile.xhtml">
+        <ui:define name="content">
+            <h:form>
+                <p:dataTable var="carSup" value="#{supplyerBean.listForSupplies}"
+                             emptyMessage="Нету автомобилей в корзине" style="width: 70%">
+                    <p:column headerText="Дилер">
+                        <p:outputLabel value="#{carSup.model.diler.title}"/>
+                    </p:column>
+                    <p:column headerText="Модель">
+                        <p:outputLabel value="#{carSup.model.title}"/>
+                    </p:column>
+                    <p:column headerText="Цвет">
+                        <p:outputLabel value="#{carSup.color}"/>
+                    </p:column>
+                    <p:column headerText="Цена">
+                        <p:outputLabel value="#{carSup.cost}"/>
+                    </p:column>
+                    <p:column headerText="Количество" style="width: 15%">
+                        <p:outputLabel value="#{carSup.count}"/>
+                    </p:column>
+                    <p:column>
+                        <h:commandButton value="Удалить" styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+                                         action="#{supplyerBean.removeFromListForSupply(carSup)}"/>
+                    </p:column>
+                </p:dataTable>
+                <br/>
+                <ui:fragment rendered="#{supplyerBean.listForSupplies.size() > 0}">
+                    <h:commandLink value="Перейти на страницу оформления заказа"
+                                   action="#{supplyerBean.goToOrderPage()}"/>
+                    <br/>
+                    <br/>
+                    <h:commandLink value="Вернуться на страницу просмотра автомобилей"
+                                   action="#{showDealersBean.showCarsForModels(showDealersBean.selectedModel)}"/>
+                    <br/>
+                </ui:fragment>
+                <br/>
+                <h:commandLink value="Вернуться на страницу просмотра дилеров" action="showDealerPage"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</h:body>
+
+</html>

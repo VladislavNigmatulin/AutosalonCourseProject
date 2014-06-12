@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+    <title>Добавить в корзину</title>
+</h:head>
+
+<h:body>
+    <ui:composition template="templateFile.xhtml">
+        <ui:define name="content">
+            <h:form>
+                <p:outputPanel id="carDetail" style="text-align: center">
+                    <p:panelGrid columns="2" rendered="#{not empty supplyerBean.selectedCarforsupply}" style="border: 1px">
+                        <h:outputText value="Дилер"/>
+                        <h:outputText value="#{supplyerBean.selectedCarforsupply.model.diler.title}"/>
+                        <h:outputLabel value="Модель"/>
+                        <h:outputText value="#{supplyerBean.selectedCarforsupply.model.title}"/>
+                        <h:outputText value="Цвет"/>
+                        <h:outputText value="#{supplyerBean.selectedCarforsupply.color}"/>
+                        <h:outputText value="Цена"/>
+                        <h:outputText value="#{supplyerBean.selectedCarforsupply.cost}"/>
+                        <h:outputText value="В наличии"/>
+                        <h:outputText value="#{supplyerBean.selectedCarforsupply.count}"/>
+                        <h:outputText value="Количество"/>
+                        <h:inputText id="count" value="#{supplyerBean.newCount}" validatorMessage="Количество не может быть 0">
+                            <f:validateLongRange minimum="1"/>
+                        </h:inputText>
+                    </p:panelGrid>
+                    <br/>
+                    <h:commandButton value="Заказать" style="position: relative; right: 810px;"
+                        styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+                     action="#{supplyerBean.addToListForSupply(supplyerBean.selectedCarforsupply)}"/>
+                </p:outputPanel>
+                <f:event type="postValidate" listener="#{supplyerBean.validateSelectedCarOnCount}"/>
+                <p:message for="count"/>
+            </h:form>
+            <br/>
+            <h:form>
+                <h:commandLink value="Вернуться к просмотру автомобилей"
+                               action="#{showDealersBean.showCarsForModels(showDealersBean.selectedModel)}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</h:body>
+
+</html>

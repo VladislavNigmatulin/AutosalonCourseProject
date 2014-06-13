@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+    <title>История поставок</title>
+</h:head>
+
+<h:body>
+    <ui:composition template="templateFile.xhtml">
+        <ui:define name="content">
+            <p:outputLabel value="Дилер -  #{showDealersBean.selectedDiler.title}"/>
+            <br/>
+            <p:dataTable var="trade" value="#{showDealersBean.listOfTrades}" style="width: 70%"
+                    emptyMessage="У этого дилера пока не имеется сделок">
+                <p:column headerText="Модель">
+                    <p:outputLabel value="#{trade.carforsupply.model.title}"/>
+                </p:column>
+                <p:column headerText="Цвет">
+                    <p:outputLabel value="#{trade.carforsupply.color}"/>
+                </p:column>
+                <p:column headerText="Цена (за один авто)">
+                    <p:outputLabel value="#{trade.carforsupply.cost}"/>
+                </p:column>
+                <p:column headerText="Количество">
+                    <p:outputLabel value="#{trade.count}"/>
+                </p:column>
+            </p:dataTable>
+            <br/>
+            <h:form>
+                <h:commandLink value="Вернуться на страницу выбора дилера" action="chooseDealerForHistory"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</h:body>
+
+</html>

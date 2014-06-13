@@ -13,6 +13,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -163,5 +164,41 @@ public class ManagerEJBBean implements ManagerEJBBeanLocal {
         Autosalon autosalon = emA.find(Autosalon.class, autosalonId);
         return autosalon;
     }
+
+    /**
+     * История продаж дилера (для всех автосалонов)
+     * @param dilerId - идентификационный номер дилера
+     * @return - список сделок
+     */
+    @Override
+    public List<Trade> showDilersSalesHistory(int dilerId){
+        Diler diler = findDilerById(dilerId);
+        List<Model> listOfModels = diler.getModels();
+        List<Carforsupply> listOfCars = new ArrayList<Carforsupply>();
+        for (Model model : listOfModels){
+            List<Carforsupply> listOfModelsCars = model.getCarforsupplies();
+            for (Carforsupply car : listOfModelsCars){
+                listOfCars.add(car);
+            }
+        }
+        List<Trade> listOfTrades = new ArrayList<Trade>();
+        for (Carforsupply carForSup : listOfCars){
+            List<Trade> listOfTr = carForSup.getTrades();
+            for (Trade tr : listOfTr)
+                listOfTrades.add(tr);
+        }
+        return listOfTrades;
+    }
+
+    @Override
+    public Diler findDilerById(int dilerId){
+        Diler diler = emD.find(Diler.class, dilerId);
+        return diler;
+    }
+
+
+
+
+
 
 }

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+    <title>Просмотр автомобилей на продажу</title>
+</h:head>
+
+<h:body>
+    <ui:composition template="templateFile.xhtml">
+        <ui:define name="content">
+            <p:outputLabel value="Автомобили на продажу"/>
+            <br/>
+            <br/>
+            <h:form>
+                <p:dataTable var="car" value="#{autosalonShowCarsBean.listOfCars}" style="width: 80%">
+                    <p:column headerText="Производитель">
+                        <p:outputLabel value="#{autosalonShowCarsBean.findModelOfCar(car).diler.title}"/>
+                    </p:column>
+                    <p:column headerText="Модель">
+                        <p:outputLabel value="#{autosalonShowCarsBean.findModelOfCar(car).title}"/>
+                    </p:column>
+                    <p:column headerText="Цвет">
+                        <p:outputLabel value="#{car.color}"/>
+                    </p:column>
+                    <p:column headerText="Цена">
+                        <p:outputLabel value="#{car.cost}"/>
+                    </p:column>
+                    <p:column headerText="Количество">
+                        <p:outputLabel value="#{car.count}"/>
+                    </p:column>
+                    <p:column>
+                        <h:commandButton styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+                                         action="#{autosalonShowCarsBean.goToInfoAboutCar(car)}"
+                                         value="Оформить заказ"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+            <br/>
+            <h:form>
+                <h:commandLink value="Вернуться на страницу клиента" action="clientPage"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</h:body>
+
+</html>

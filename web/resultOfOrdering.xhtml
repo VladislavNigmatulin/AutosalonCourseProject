@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Результат заказа</title>
+</h:head>
+
+<h:body>
+    <ui:composition template="templateFile.xhtml">
+        <ui:define name="content">
+            <ui:fragment rendered="#{clientOrderingBean.resultOfOrdering}">
+                <p:outputLabel value="Заказ успешно принят. Вы можете забрать свой автомобиль в автосалоне.
+                    Контактные данные приведены ниже."/>
+                <br/>
+                <br/>
+                <p:panelGrid columns="2" style="border: 1px">
+                    <p:outputLabel value="Страна"/>
+                    <p:outputLabel value="#{autosalonShowCarsBean.selectedCar.autosalon.country}"/>
+                    <p:outputLabel value="Город"/>
+                    <p:outputLabel value="#{autosalonShowCarsBean.selectedCar.autosalon.city}"/>
+                    <p:outputLabel value="Адрес"/>
+                    <p:outputLabel value="#{autosalonShowCarsBean.selectedCar.autosalon.address}"/>
+                    <p:outputLabel value="Телефон"/>
+                    <p:outputLabel value="#{autosalonShowCarsBean.selectedCar.autosalon.phone}"/>
+                    <p:outputLabel value="EMail"/>
+                    <p:outputLabel value="#{autosalonShowCarsBean.selectedCar.autosalon.email}"/>
+                </p:panelGrid>
+            </ui:fragment>
+            <ui:fragment rendered="#{!clientOrderingBean.resultOfOrdering}">
+                <p:outputLabel value="На вашему счету недостаточно средств. Заказ отменен."/>
+            </ui:fragment>
+            <br/>
+            <br/>
+            <h:form>
+                <h:commandLink value="Вернуться н страницу клиента" action="clientPage"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</h:body>
+
+</html>

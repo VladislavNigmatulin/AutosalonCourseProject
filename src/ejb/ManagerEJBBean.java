@@ -23,9 +23,6 @@ public class ManagerEJBBean implements ManagerEJBBeanLocal {
     @PersistenceContext(name = "persistence/dilers", unitName= "DilersPersistenceUnit")
     private EntityManager emD;
 
-    @PersistenceContext(name= "persistence/users", unitName = "UsersPersistenceUnit")
-    private EntityManager emU;
-
     @PersistenceContext(name = "persistence/autosalons", unitName = "AutosalonsPersistenceUnit")
     private EntityManager emA;
 
@@ -190,15 +187,14 @@ public class ManagerEJBBean implements ManagerEJBBeanLocal {
         return listOfTrades;
     }
 
+    /**
+     * Найти дилера по id
+     * @param dilerId - id дилера
+     * @return
+     */
     @Override
     public Diler findDilerById(int dilerId){
         Diler diler = emD.find(Diler.class, dilerId);
         return diler;
     }
-
-
-
-
-
-
 }

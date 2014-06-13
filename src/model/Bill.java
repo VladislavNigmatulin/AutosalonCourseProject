@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class Bill implements Serializable {
 
 	private int count;
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
 
 	//bi-directional one-to-one association to User
@@ -39,6 +40,12 @@ public class Bill implements Serializable {
 
 	public Bill() {
 	}
+
+    public Bill(int count, Timestamp date, User user){
+        this.count = count;
+        this.date = date;
+        this.user = user;
+    }
 
 	public int getId() {
 		return this.id;
@@ -60,7 +67,7 @@ public class Bill implements Serializable {
 		return this.date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(Timestamp date) {
 		this.date = date;
 	}
 

@@ -18,6 +18,7 @@
         <ui:define name="content">
             <p:outputLabel value="Дилер -  #{showDealersBean.selectedDiler.title}"/>
             <br/>
+            <br/>
             <p:dataTable var="trade" value="#{showDealersBean.listOfTrades}" style="width: 70%"
                     emptyMessage="У этого дилера пока не имеется сделок">
                 <p:column headerText="Модель">
@@ -31,6 +32,9 @@
                 </p:column>
                 <p:column headerText="Количество">
                     <p:outputLabel value="#{trade.count}"/>
+                </p:column>
+                <p:column headerText="Дата сделки">
+                    <p:outputLabel value="#{showDealersBean.formatDate(trade.supply.date)}"/>
                 </p:column>
             </p:dataTable>
             <br/>

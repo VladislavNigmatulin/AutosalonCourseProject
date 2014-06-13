@@ -1,5 +1,6 @@
 package ejb;
 
+import model.Model;
 import model.Role;
 
 import javax.ejb.Stateless;
@@ -17,6 +18,12 @@ public class CommonEJBBean implements CommonEJBBeanLocal {
     @PersistenceContext(name = "persistence/users", unitName= "UsersPersistenceUnit")
     private EntityManager emU;
 
+    @PersistenceContext(name = "persistence/dilers", unitName= "DilersPersistenceUnit")
+    private EntityManager emD;
+
+    @PersistenceContext(name = "persistence/autosalons", unitName = "AutosalonsPersistenceUnit")
+    private EntityManager emA;
+
     /**
      * Поиск роли по названию
      * @return - роль
@@ -29,6 +36,17 @@ public class CommonEJBBean implements CommonEJBBeanLocal {
         criteriaQuery.select(roleRoot).where(predicate1);
         Role clientRole = emU.createQuery(criteriaQuery).getSingleResult();
         return clientRole;
+    }
+
+    /**
+     * Найти модель по id
+     * @param modelId - id модели
+     * @return модель
+     */
+    @Override
+    public Model findModelById(int modelId){
+        Model model = emD.find(Model.class, modelId);
+        return model;
     }
 
 }

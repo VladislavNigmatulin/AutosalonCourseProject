@@ -2,6 +2,8 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.Date;
 
 
@@ -18,7 +20,7 @@ public class Orderforcar implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
 
 	@Column(name="user_id")
@@ -29,8 +31,17 @@ public class Orderforcar implements Serializable {
 	@JoinColumn(name="car_id")
 	private Car car;
 
+    private int cancel;
+
 	public Orderforcar() {
 	}
+
+    public Orderforcar(Timestamp date, int userId, Car car, int cancel){
+        this.date = date;
+        this.userId = userId;
+        this.car = car;
+        this.cancel = cancel;
+    }
 
 	public int getId() {
 		return this.id;
@@ -44,7 +55,7 @@ public class Orderforcar implements Serializable {
 		return this.date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(Timestamp date) {
 		this.date = date;
 	}
 
@@ -64,4 +75,11 @@ public class Orderforcar implements Serializable {
 		this.car = car;
 	}
 
+    public int getCancel() {
+        return cancel;
+    }
+
+    public void setCancel(int cancel) {
+        this.cancel = cancel;
+    }
 }

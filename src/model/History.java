@@ -26,6 +26,8 @@ public class History implements Serializable {
 
 	private int sum;
 
+    private int orderForCar_ID;
+
 	//bi-directional many-to-one association to Bill
 	@ManyToOne
 	@JoinColumn(name="bill_ID")
@@ -33,6 +35,13 @@ public class History implements Serializable {
 
 	public History() {
 	}
+
+    public History(String operation, int sum, int orderId, Bill bill){
+        this.operation = operation;
+        this.sum = sum;
+        this.orderForCar_ID = orderId;
+        this.bill = bill;
+    }
 
 	public int getId() {
 		return this.id;
@@ -66,4 +75,11 @@ public class History implements Serializable {
 		this.bill = bill;
 	}
 
+    public int getOrderForCar_ID() {
+        return orderForCar_ID;
+    }
+
+    public void setOrderForCar_ID(int orderForCar_ID) {
+        this.orderForCar_ID = orderForCar_ID;
+    }
 }

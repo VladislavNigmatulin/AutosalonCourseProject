@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Просмотр информации об автомобиле</title>
+</h:head>
+
+<h:body>
+    <ui:composition template="templateFile.xhtml">
+        <ui:define name="content">
+            <p:outputLabel value="Информация о клиенте"/>
+            <br/>
+            <br/>
+            <p:panelGrid columns="2" style="border: 1px">
+                <p:outputLabel value="Фамилия"/>
+                <p:outputLabel value="#{authorizationBean.userOnline.surname}"/>
+                <p:outputLabel value="Имя"/>
+                <p:outputLabel value="#{authorizationBean.userOnline.name}"/>
+                <p:outputLabel value="Отчество"/>
+                <p:outputLabel value="#{authorizationBean.userOnline.patronymic}"/>
+                <p:outputLabel value="Возраст"/>
+                <p:outputLabel value="#{authorizationBean.userOnline.age}"/>
+            </p:panelGrid>
+            <br/>
+            <br/>
+            <p:outputLabel value="Информация об автомобиле"/>
+            <br/>
+            <br/>
+            <p:panelGrid columns="2" style="border: 1px">
+                <p:outputLabel value="Производитель"/>
+                <p:outputLabel value="#{autosalonShowCarsBean.findModelOfCar
+                (autosalonShowCarsBean.selectedCar).diler.title}"/>
+                <p:outputLabel value="Модель"/>
+                <p:outputLabel value="#{autosalonShowCarsBean.findModelOfCar
+                (autosalonShowCarsBean.selectedCar).title}"/>
+                <p:outputLabel value="Цвет"/>
+                <p:outputLabel value="#{autosalonShowCarsBean.selectedCar.color}"/>
+                <p:outputLabel value="Цена"/>
+                <p:outputLabel value="#{autosalonShowCarsBean.selectedCar.cost}"/>
+            </p:panelGrid>
+            <br/>
+            <br/>
+            <p:outputLabel value="Этот автомобиль имеется в наличии в автосалоне:"/>
+            <br/>
+            <br/>
+            <p:panelGrid columns="2" style="border: 1px">
+                <p:outputLabel value="Страна"/>
+                <p:outputLabel value="#{autosalonShowCarsBean.selectedCar.autosalon.country}"/>
+                <p:outputLabel value="Город"/>
+                <p:outputLabel value="#{autosalonShowCarsBean.selectedCar.autosalon.city}"/>
+                <p:outputLabel value="Адрес"/>
+                <p:outputLabel value="#{autosalonShowCarsBean.selectedCar.autosalon.address}"/>
+                <p:outputLabel value="Телефон"/>
+                <p:outputLabel value="#{autosalonShowCarsBean.selectedCar.autosalon.phone}"/>
+                <p:outputLabel value="EMail"/>
+                <p:outputLabel value="#{autosalonShowCarsBean.selectedCar.autosalon.email}"/>
+            </p:panelGrid>
+            <br/>
+            <h:form>
+               <h:commandButton value="Подтвердить" action="#{clientOrderingBean.makeOrder()}"
+                                styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"/>
+            </h:form>
+            <br/>
+            <h:form>
+                <h:commandLink value="Вернуться на страницу просмотра автомобилей"
+                               action="showAutosalonCarsForSale"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</h:body>
+
+</html>

@@ -37,6 +37,8 @@ public class SupplyerBean implements Serializable {
 
     private int finalPrice;
 
+    private boolean resultOfSupply;
+
     public String removeFromListForSupply(Carforsupply carforsupply){
         listForSupplies.remove(carforsupply);
         return "basketOfCarsPage";
@@ -62,9 +64,9 @@ public class SupplyerBean implements Serializable {
     }
 
     public String makeOrderForSupply(){
-        managerBean.makeOrderForSupply(authorizationBean.getUserOnline(), listForSupplies);
+        resultOfSupply = managerBean.makeOrderForSupply(authorizationBean.getUserOnline(), listForSupplies);
         listForSupplies.clear();
-        return "supplyOrderPage";
+        return "statusOfOrderForSupply";
     }
 
     public String goToOrderPage(){
@@ -112,5 +114,9 @@ public class SupplyerBean implements Serializable {
     public int getFinalPrice() {
         finalPrice = managerBean.calculateFinalPriceOfCars(listForSupplies);
         return finalPrice;
+    }
+
+    public boolean isResultOfSupply() {
+        return resultOfSupply;
     }
 }

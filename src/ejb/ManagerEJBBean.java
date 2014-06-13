@@ -5,6 +5,8 @@ import model.*;
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaQuery;
@@ -51,12 +53,14 @@ public class ManagerEJBBean implements ManagerEJBBeanLocal {
      * @return
      */
     @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public boolean makeOrderForSupply(User userOnline, List<Carforsupply> listOfCars){
         Autosalon autosalon = findAutosalonByManager(userOnline);
+        Supply supply = null;
         if (autosalon.getAutosalonbills().size() != 0){
             Autosalonbill autoBill = autosalon.getAutosalonbills().get(0);
             int finalPrice = calculateFinalPriceOfCars(listOfCars);
-            Supply supply = createNewSupply(finalPrice);
+            supply = createNewSupply(finalPrice, autoBill);
             for (Carforsupply car : listOfCars){
                 getCarsFromDealer(car, supply);
                 addCarsToAutosalon(car, autosalon);
@@ -69,13 +73,21 @@ public class ManagerEJBBean implements ManagerEJBBeanLocal {
             if (autoBill.getMoney() < finalPrice)
                 sessionContext.setRollbackOnly();
         }
-        if (sessionContext.getRollbackOnly())
+        if (sessionContext.getRollbackOnly()){
             return false;
+        }
         return true;
     }
 
+    /**
+     * Добавить автомобили в автосалон
+     * @param carforsupply - автомобиль
+     * @param autosalon - автосалон
+     */
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     private void addCarsToAutosalon(Carforsupply carforsupply, Autosalon autosalon){
-        Car car = new Car(carforsupply.getColor(), carforsupply.getCost(),
+        int newCost = carforsupply.getCost() + carforsupply.getCost() / 100 * 20;
+        Car car = new Car(carforsupply.getColor(), newCost,
                 carforsupply.getCount(), carforsupply.getModel().getId(), autosalon);
         emA.persist(car);
     }
@@ -86,10 +98,14 @@ public class ManagerEJBBean implements ManagerEJBBeanLocal {
      * @param summaryCost - итоговая сумма за поставку
      * @return поставка
      */
-    private Supply createNewSupply(int summaryCost){
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    private Supply createNewSupply(int summaryCost, Autosalonbill autoBill){
         Date dateOfSupply = new Date();
         Timestamp timestampOfSupply = new Timestamp(dateOfSupply.getTime());
         Supply supply = new Supply(timestampOfSupply, summaryCost );
+        if (autoBill.getMoney() < summaryCost)
+            supply.setCancel(1);
+        else supply.setCancel(0);
         supply = emD.merge(supply);
         return supply;
     }
@@ -99,18 +115,20 @@ public class ManagerEJBBean implements ManagerEJBBeanLocal {
      * Вычесть автомобили с дилера, создать сделку
      * @param car - автомобиль
      */
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     private void getCarsFromDealer(Carforsupply car, Supply supply){
         Carforsupply findCar = null;
         CriteriaQuery<Carforsupply> criteriaQuery = emD.getCriteriaBuilder().createQuery(Carforsupply.class);
         Root carRoot = criteriaQuery.from(Carforsupply.class);
         Predicate predicate1 = carRoot.get("color").in(car.getColor());
-        //Predicate predicate2 = carRoot.get("model_id").in(car.getModel().getId());
         Predicate predicate3 = carRoot.get("cost").in(car.getCost());
         criteriaQuery.select(carRoot).where(predicate1);
-        //criteriaQuery.select(carRoot).where(predicate2);
         criteriaQuery.select(carRoot).where(predicate3);
-        List<Carforsupply> listOfResult = emD.createQuery(criteriaQuery).getResultList();
-        findCar = listOfResult.get(0);
+        List<Carforsupply> listOfCars = emD.createQuery(criteriaQuery).getResultList();
+        for (Carforsupply carInList : listOfCars){
+            if (carInList.getModel().getId() == car.getModel().getId())
+                findCar = carInList;
+        }
         int newCount = findCar.getCount() - car.getCount();
         findCar.setCount(newCount);
         emD.merge(findCar);
@@ -124,6 +142,7 @@ public class ManagerEJBBean implements ManagerEJBBeanLocal {
      * @return сумма
      */
     @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public int calculateFinalPriceOfCars(List<Carforsupply> cars){
         int finalPrice = 0;
         for (Carforsupply car : cars){
@@ -138,6 +157,7 @@ public class ManagerEJBBean implements ManagerEJBBeanLocal {
      * @return - автосалон, в котором работает менеджер
      */
     @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Autosalon findAutosalonByManager(User user){
         int autosalonId = user.getAutosalon_id();
         Autosalon autosalon = emA.find(Autosalon.class, autosalonId);

@@ -29,6 +29,8 @@ public class Supply implements Serializable {
 	@OneToMany(mappedBy="supply")
 	private List<Trade> trades;
 
+    private int cancel;
+
 	public Supply() {
 	}
 
@@ -69,4 +71,11 @@ public class Supply implements Serializable {
 		this.trades = trades;
 	}
 
+    public int getCancel() {
+        return cancel;
+    }
+
+    public void setCancel(int cancel) {
+        this.cancel = cancel;
+    }
 }

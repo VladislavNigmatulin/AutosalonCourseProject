@@ -41,14 +41,7 @@
             <br/>
             <br/>
             <h:form>
-                <p:commandButton value="Подтвердить заказ" action="#{supplyerBean.makeOrderForSupply()}"
-                                 oncomplete="PF('completeDialog').show()"/>
-                <p:dialog header="Заказ выполнен" widgetVar="completeDialog" modal="true"
-                          showEffect="fade" hideEffect="fade" resizable="false">
-                    <p:outputLabel value="Ваш заказ успешно выполнен."/>
-                    <br/>
-                    <h:commandLink value="Вернуться на страницу менеджера" action="managerPage"/>
-                </p:dialog>
+                <p:commandButton value="Подтвердить заказ" action="#{supplyerBean.makeOrderForSupply()}"/>
             </h:form>
             <br/>
             <h:form>

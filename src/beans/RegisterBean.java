@@ -11,6 +11,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -43,6 +44,8 @@ public class RegisterBean implements Serializable {
 
     private Date dateOfBirth;
 
+    private int selectedAutosalonId;
+
     public String goToRegister(){
         return "register";
     }
@@ -57,6 +60,18 @@ public class RegisterBean implements Serializable {
         patronymic = "";
         dateOfBirth = null;
         return "index";
+    }
+
+    public String registerNewManager(){
+        int age = userEJBBean.getDifferenceBeetweenTwoDates(dateOfBirth);
+        User user = new User(login, password, surname, name, patronymic, age);
+        userEJBBean.registerNewManager(user, selectedAutosalonId);
+        login = "";
+        surname = "";
+        name = "";
+        patronymic = "";
+        dateOfBirth = null;
+        return "showUsersList";
     }
 
     public String getLogin() {
@@ -113,6 +128,14 @@ public class RegisterBean implements Serializable {
 
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public int getSelectedAutosalonId() {
+        return selectedAutosalonId;
+    }
+
+    public void setSelectedAutosalonId(int selectedAutosalonId) {
+        this.selectedAutosalonId = selectedAutosalonId;
     }
 
     public void validatePassword(ComponentSystemEvent event)

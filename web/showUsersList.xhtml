@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+    <title>Список пользователей</title>
+</h:head>
+
+<h:body>
+    <ui:composition template="templateFile.xhtml">
+        <ui:define name="content">
+            <h4><h:outputLabel value="Список клиентов"/></h4>
+            <p:dataTable  var="client"
+                          value="#{adminBean.listOfClients}" style="width: 70%; border: 1px">
+                <p:column headerText="Фамилия">
+                    <h:outputText value="#{client.surname}"/>
+                </p:column>
+                <p:column headerText="Имя">
+                    <h:outputText value="#{client.name}"/>
+                </p:column>
+                <p:column headerText="Отчество">
+                    <h:outputText value="#{client.patronymic}"/>
+                </p:column>
+                <p:column headerText="Возраст">
+                    <h:outputText value="#{client.age}"/>
+                </p:column>
+            </p:dataTable>
+            <br/>
+            <br/>
+            <h4><h:outputLabel value="Список менеджеров"/></h4>
+            <p:dataTable var="manager" value="#{adminBean.listOfManagers}" style="width: 70%; border: 1px">
+                <p:column headerText="Фамилия">
+                    <h:outputText value="#{manager.surname}"/>
+                </p:column>
+                <p:column headerText="Имя">
+                    <h:outputText value="#{manager.name}"/>
+                </p:column>
+                <p:column headerText="Отчество">
+                    <h:outputText value="#{manager.patronymic}"/>
+                </p:column>
+                <p:column headerText="Возраст">
+                    <h:outputText value="#{manager.age}"/>
+                </p:column>
+                <p:column style="width: 4%">
+                    <p:commandButton icon="ui-icon-search" title="Посмотреть информацию"
+                                     action="#{adminBean.showInfoAboutUser(manager)}"/>
+                </p:column>
+                <p:column style="width: 8%">
+                    <p:commandButton value="Уволить" action="#{adminBean.goToDismissManager(manager)}"/>
+                </p:column>
+            </p:dataTable>
+            <br/>
+            <h:form>
+                <h:commandLink value="Зарегистрировать менеджера" action="register"/>
+            </h:form>
+            <br/>
+            <br/>
+            <h:form>
+                <h:commandLink value="Вернуться на страницу администратора" action="adminPage"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</h:body>
+
+</html>

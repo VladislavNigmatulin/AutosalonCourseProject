@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Подтвердите увольнение менеджера</title>
+</h:head>
+
+<h:body>
+    <ui:composition template="templateFile.xhtml">
+        <ui:define name="content">
+            <p:outputLabel value="Подтвердите увольнение менеджера"/>
+            <br/>
+            <p:outputLabel value="Информация о менеджере:"/>
+            <br/>
+            <h:form>
+                <p:panelGrid columns="2" style="border: 1px">
+                    <p:outputLabel value="Фамилия"/>
+                    <p:outputLabel value="#{adminBean.selectedUser.surname}"/>
+                    <p:outputLabel value="Имя"/>
+                    <p:outputLabel value="#{adminBean.selectedUser.name}"/>
+                    <p:outputLabel value="Отчество"/>
+                    <p:outputLabel value="#{adminBean.selectedUser.patronymic}"/>
+                    <p:outputLabel value="Возраст"/>
+                    <p:outputLabel value="#{adminBean.selectedUser.age}"/>
+                </p:panelGrid>
+                <br/>
+                <p:outputLabel value="Автосалон, в котором работает менеджер:"/>
+                <br/>
+                <p:panelGrid columns="2" style="border: 1px">
+                    <p:outputLabel value="Страна"/>
+                    <p:outputLabel value="#{adminBean.selectedAutosalon.country}"/>
+                    <p:outputLabel value="Город"/>
+                    <p:outputLabel value="#{adminBean.selectedAutosalon.city}"/>
+                    <p:outputLabel value="Адрес"/>
+                    <p:outputLabel value="#{adminBean.selectedAutosalon.address}"/>
+                    <p:outputLabel value="Телефон"/>
+                    <p:outputLabel value="#{adminBean.selectedAutosalon.phone}"/>
+                    <p:outputLabel value="EMail"/>
+                    <p:outputLabel value="#{adminBean.selectedAutosalon.email}"/>
+                </p:panelGrid>
+                <br/>
+                <br/>
+                <h:commandButton value="Подтвердить" styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+                                 action="#{adminBean.dismissManager()}"/>
+            </h:form>
+            <br/>
+            <br/>
+            <h:form>
+                <h:commandLink value="Вернуться назад" action="showUsersList"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</h:body>
+
+</html>

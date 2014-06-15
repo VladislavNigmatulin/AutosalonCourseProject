@@ -1,9 +1,6 @@
 package ejb;
 
-import model.Bill;
-import model.History;
-import model.Role;
-import model.User;
+import model.*;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -63,6 +60,33 @@ public class UserEJBBean implements UserEJBBeanLocal{
         if (listOfUsers.size() != 0)
             return true;
         return false;
+    }
+
+    /**
+     * Регистрация нового менеджера, а также привязка его к автосалону
+     *@param user - пользователь
+     * @param autosalonId - ID автосалона
+     */
+    @Override
+    public void registerNewManager(User user, int autosalonId){
+        user.setAutosalon_id(autosalonId);
+        user = emU.merge(user);
+        Role managerRole = commonEJBBean.getRoleByTitle("Менеджер");
+        user.getRoles().add(managerRole);
+        managerRole.getUsers().add(user);
+        emU.merge(user);
+    }
+
+    /**
+     * Уволить менеджера
+     * @param user - менеджер
+     */
+    @Override
+    public void dismissManager(User user){
+        User userFind = emU.find(User.class, user.getId());
+        emU.joinTransaction();
+        emU.remove(userFind);
+        emU.flush();
     }
 
     /**

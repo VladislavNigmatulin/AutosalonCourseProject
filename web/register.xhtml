@@ -39,14 +39,32 @@
                             <p:inputText id="patronymic" value="#{registerBean.patronymic}"/>
                             <p:outputLabel value="Дата рождения:"/>
                             <p:inputText id="birthDate" value="#{registerBean.dateOfBirth}"
-                                converterMessage="Дата рождения должна иметь формат ДД-ММ-ГГГГ">
+                                         converterMessage="Дата рождения должна иметь формат ДД-ММ-ГГГГ">
                                 <f:convertDateTime pattern="dd-MM-yyyy"/>
                             </p:inputText>
                         </p:panelGrid>
                         <br/>
-                        <h:commandButton id="btreg" value="Зарегистрироваться" style="position: relative; left: 100px"
-                                         action="#{registerBean.register()}"
-                                         styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"/>
+                        <ui:fragment rendered="#{authorizationBean.permissions.equals('Администратор')}">
+                            <p:outputLabel value="Выберите автосалон:"/>
+                            <br/>
+                            <h:selectOneMenu value="#{registerBean.selectedAutosalonId}">
+                                <f:selectItems value="#{adminBean.listOfAutosalons}" var="autosalon"
+                                               itemValue="#{autosalon.id}"
+                                               itemLabel="#{autosalon.country}, #{autosalon.city}, #{autosalon.address}"/>
+                            </h:selectOneMenu>
+                            <br/>
+                        </ui:fragment>
+                        <br/>
+                        <ui:fragment rendered="#{!authorizationBean.permissions.equals('Администратор')}">
+                            <h:commandButton id="btreg" value="Зарегистрироваться" style="position: relative; left: 100px"
+                                             action="#{registerBean.register()}"
+                                             styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"/>
+                        </ui:fragment>
+                        <ui:fragment rendered="#{authorizationBean.permissions.equals('Администратор')}">
+                            <h:commandButton id="btreg2" value="Зарегистрировать" style="position: relative; left: 100px"
+                                             action="#{registerBean.registerNewManager()}"
+                                             styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"/>
+                        </ui:fragment>
                         <br/>
                         <br/>
                         <p:message for="loginReg"/>

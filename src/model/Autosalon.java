@@ -39,6 +39,14 @@ public class Autosalon implements Serializable {
 	public Autosalon() {
 	}
 
+    public Autosalon(String country, String city, String address, String email, String phone){
+        this.address = address;
+        this.city = city;
+        this.country = country;
+        this.email = email;
+        this.phone = phone;
+    }
+
 	public int getId() {
 		return this.id;
 	}
@@ -95,40 +103,12 @@ public class Autosalon implements Serializable {
 		this.autosalonbills = autosalonbills;
 	}
 
-	public Autosalonbill addAutosalonbill(Autosalonbill autosalonbill) {
-		getAutosalonbills().add(autosalonbill);
-		autosalonbill.setAutosalon(this);
-
-		return autosalonbill;
-	}
-
-	public Autosalonbill removeAutosalonbill(Autosalonbill autosalonbill) {
-		getAutosalonbills().remove(autosalonbill);
-		autosalonbill.setAutosalon(null);
-
-		return autosalonbill;
-	}
-
 	public List<Car> getCars() {
 		return this.cars;
 	}
 
 	public void setCars(List<Car> cars) {
 		this.cars = cars;
-	}
-
-	public Car addCar(Car car) {
-		getCars().add(car);
-		car.setAutosalon(this);
-
-		return car;
-	}
-
-	public Car removeCar(Car car) {
-		getCars().remove(car);
-		car.setAutosalon(null);
-
-		return car;
 	}
 
 }

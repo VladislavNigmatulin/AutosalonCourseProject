@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Создать новый автосалон</title>
+</h:head>
+
+<h:body>
+    <ui:composition template="templateFile.xhtml">
+        <ui:define name="content">
+            <h:form>
+                <p:panel style="position: relative; left: 615px; width: 500px; background-color: beige"
+                         styleClass="elementbrddarslmon">
+                    <p:panelGrid columns="2" columnClasses="greenback" styleClass="greenback, elementbckgrdbeige">
+                        <p:outputLabel value="Страна"/>
+                        <p:inputText id="country" value="#{manageAutosalonBean.country}"/>
+                        <p:outputLabel value="Город"/>
+                        <p:inputText id="city" value="#{manageAutosalonBean.city}"/>
+                        <p:outputLabel value="Адрес"/>
+                        <p:inputText id="address" value="#{manageAutosalonBean.address}"/>
+                        <p:outputLabel value="Телефон"/>
+                        <p:inputText id="phone" value="#{manageAutosalonBean.phone}"/>
+                        <p:outputLabel value="EMail"/>
+                        <p:inputText id="email" value="#{manageAutosalonBean.email}"/>
+                        <p:outputLabel value="Количество денег на счету"/>
+                        <p:inputText value="#{manageAutosalonBean.money}"/>
+                    </p:panelGrid>
+                    <br/>
+                    <h:commandButton value="Создать" styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+                                     action="#{manageAutosalonBean.createNewAutosalons()}" style="position: relative; left: 170px"/>
+                </p:panel>
+                <br/>
+                <p:message for="country"/>
+                <p:message for="city"/>
+                <p:message for="address"/>
+                <p:message for="phone"/>
+                <p:message for="email"/>
+            </h:form>
+            <br/>
+            <h:form>
+                <h:commandLink value="Вернуться к списку автосалонов" action="showAllAutosalons"/>
+            </h:form>
+            <br/>
+            <br/>
+        </ui:define>
+    </ui:composition>
+</h:body>
+
+</html>

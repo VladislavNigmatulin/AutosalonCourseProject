@@ -128,4 +128,8 @@ public class User implements Serializable {
     public int getAutosalon_id() {
         return autosalon_id;
     }
+
+    public void setAutosalon_id(int autosalon_id) {
+        this.autosalon_id = autosalon_id;
+    }
 }

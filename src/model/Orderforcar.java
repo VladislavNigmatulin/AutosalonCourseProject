@@ -23,8 +23,7 @@ public class Orderforcar implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
 
-	@Column(name="user_id")
-	private int userId;
+	private int user_id;
 
 	//bi-directional many-to-one association to Car
 	@ManyToOne
@@ -38,7 +37,7 @@ public class Orderforcar implements Serializable {
 
     public Orderforcar(Timestamp date, int userId, Car car, int cancel){
         this.date = date;
-        this.userId = userId;
+        this.user_id = userId;
         this.car = car;
         this.cancel = cancel;
     }
@@ -60,11 +59,11 @@ public class Orderforcar implements Serializable {
 	}
 
 	public int getUserId() {
-		return this.userId;
+		return this.user_id;
 	}
 
 	public void setUserId(int userId) {
-		this.userId = userId;
+		this.user_id = userId;
 	}
 
 	public Car getCar() {

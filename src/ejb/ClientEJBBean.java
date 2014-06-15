@@ -9,7 +9,10 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -32,12 +35,10 @@ public class ClientEJBBean implements ClientEJBBeanLocal {
      */
     @Override
     public List<Car> getListOfCars(){
-        CriteriaQuery<Car> criteriaQuery = emA.getCriteriaBuilder().createQuery(Car.class);
-        criteriaQuery.select(criteriaQuery.from(Car.class));
-        List<Car> listOfCars = emA.createQuery(criteriaQuery).getResultList();
+        Query query = emA.createQuery("SELECT c from Car c WHERE c.count > 0");
+        List<Car> listOfCars = query.getResultList();
         return listOfCars;
     }
-
 
     /**
      * Заказ на покупку автомобиля
@@ -144,4 +145,16 @@ public class ClientEJBBean implements ClientEJBBeanLocal {
     }
 
 
+    /**
+     * Получить список заказов
+     * @param user - пользователь онлайн
+     * @return список заказов
+     */
+    @Override
+    public List<Orderforcar> getListOfOrderforcars(User user){
+        Query query = emA.createQuery("SELECT o from Orderforcar o WHERE o.cancel = 0 AND o.user_id = :userId");
+        query.setParameter("userId", user.getId());
+        List<Orderforcar> listOfOrders = query.getResultList();
+        return listOfOrders;
+    }
 }

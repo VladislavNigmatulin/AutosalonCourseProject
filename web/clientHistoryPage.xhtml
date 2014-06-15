@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+    <title>История клиента</title>
+</h:head>
+
+<h:body>
+    <ui:composition template="templateFile.xhtml">
+        <ui:define name="content">
+            <h:form id="form">
+                <p:dataTable value="#{clientOrderingBean.listOfOrders}" var="order" style="width: 80%">
+                    <p:column headerText="Производитель">
+                        <p:outputLabel value="#{autosalonShowCarsBean.findModelOfCar(order.car).diler.title}"/>
+                    </p:column>
+                    <p:column headerText="Модель">
+                        <p:outputLabel value="#{autosalonShowCarsBean.findModelOfCar(order.car).title}"/>
+                    </p:column>
+                    <p:column headerText="Цвет">
+                        <p:outputLabel value="#{order.car.color}"/>
+                    </p:column>
+                    <p:column headerText="Цена">
+                        <p:outputLabel value="#{order.car.cost}"/>
+                    </p:column>
+                    <p:column headerText="Дата">
+                        <p:outputLabel value="#{showDealersBean.formatDate(order.date)}"/>
+                    </p:column>
+                    <p:column style="width: 10%; text-align: center">
+                        <p:commandButton update=":form:orderDetail" oncomplete="PF('orderDialog').show()"
+                                     icon="ui-icon-search" title="Просмотр информации">
+                            <f:setPropertyActionListener value="#{order}" target="#{clientOrderingBean.selectedOrder}"/>
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+                <p:dialog header="Информация о заказе" widgetVar="orderDialog" modal="true"
+                          showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="orderDetail" style="text-align: center">
+                        <p:panelGrid columns="2" rendered="#{not empty clientOrderingBean.selectedOrder}" style="border: 1px">
+                            <p:outputLabel value="Производитель"/>
+                            <p:outputLabel value="#{autosalonShowCarsBean.findModelOfCar(clientOrderingBean.selectedOrder.car).diler.title}"/>
+                            <p:outputLabel value="Модель"/>
+                            <p:outputLabel value="#{autosalonShowCarsBean.findModelOfCar(clientOrderingBean.selectedOrder.car).title}"/>
+                            <p:outputLabel value="Цвет"/>
+                            <p:outputLabel value="#{clientOrderingBean.selectedOrder.car.color}"/>
+                            <p:outputLabel value="Цена"/>
+                            <p:outputLabel value="#{clientOrderingBean.selectedOrder.car.cost}"/>
+                            <p:outputLabel value="Дата"/>
+                            <p:outputLabel value="#{showDealersBean.formatDate(clientOrderingBean.selectedOrder.date)}"/>
+                        </p:panelGrid>
+                        <br/>
+                        <p:outputLabel value="Автосалон, в котором был куплен автомобиль:"/>
+                        <p:panelGrid columns="2" rendered="#{not empty clientOrderingBean.selectedOrder}" style="border: 1px">
+                            <p:outputLabel value="Страна"/>
+                            <p:outputLabel value="#{clientOrderingBean.selectedOrder.car.autosalon.country}"/>
+                            <p:outputLabel value="Город"/>
+                            <p:outputLabel value="#{clientOrderingBean.selectedOrder.car.autosalon.city}"/>
+                            <p:outputLabel value="Адрес"/>
+                            <p:outputLabel value="#{clientOrderingBean.selectedOrder.car.autosalon.address}"/>
+                            <p:outputLabel value="Телефон"/>
+                            <p:outputLabel value="#{clientOrderingBean.selectedOrder.car.autosalon.phone}"/>
+                            <p:outputLabel value="EMail"/>
+                            <p:outputLabel value="#{clientOrderingBean.selectedOrder.car.autosalon.email}"/>
+                        </p:panelGrid>
+                    </p:outputPanel>
+                </p:dialog>
+            </h:form>
+            <br/>
+            <br/>
+            <h:form>
+                <h:commandLink value="Вернуться на страницу клиента" action="clientPage"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</h:body>
+
+</html>

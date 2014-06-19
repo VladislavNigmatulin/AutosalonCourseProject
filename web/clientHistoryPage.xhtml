@@ -17,7 +17,8 @@
     <ui:composition template="templateFile.xhtml">
         <ui:define name="content">
             <h:form id="form">
-                <p:dataTable value="#{clientOrderingBean.listOfOrders}" var="order" style="width: 80%">
+                <p:dataTable value="#{clientOrderingBean.listOfOrders}" var="order" style="width: 80%"
+                             emptyMessage="Вы еще не приобретали автомобилей в нашей сети автосалонов">
                     <p:column headerText="Производитель">
                         <p:outputLabel value="#{autosalonShowCarsBean.findModelOfCar(order.car).diler.title}"/>
                     </p:column>

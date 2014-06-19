@@ -1,6 +1,5 @@
 package beans;
 
-import ejb.AdminEJBBean;
 import ejb.AdminEJBBeanLocal;
 import ejb.ManagerEJBBeanLocal;
 import ejb.UserEJBBeanLocal;
@@ -8,9 +7,7 @@ import model.Autosalon;
 import model.User;
 
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;

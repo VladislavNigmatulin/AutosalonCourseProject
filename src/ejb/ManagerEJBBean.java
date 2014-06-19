@@ -60,7 +60,7 @@ public class ManagerEJBBean implements ManagerEJBBeanLocal {
             int finalPrice = calculateFinalPriceOfCars(listOfCars);
             supply = createNewSupply(finalPrice, autoBill);
             for (Carforsupply car : listOfCars){
-                getCarsFromDealer(car, supply);
+                getCarsFromDealer(car, supply, autoBill, finalPrice);
                 addCarsToAutosalon(car, autosalon);
             }
             Date dateOfTrade = new Date();
@@ -114,7 +114,7 @@ public class ManagerEJBBean implements ManagerEJBBeanLocal {
      * @param car - автомобиль
      */
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    private void getCarsFromDealer(Carforsupply car, Supply supply){
+    private void getCarsFromDealer(Carforsupply car, Supply supply, Autosalonbill autoBill, int finalPrice){
         Carforsupply findCar = null;
         CriteriaQuery<Carforsupply> criteriaQuery = emD.getCriteriaBuilder().createQuery(Carforsupply.class);
         Root carRoot = criteriaQuery.from(Carforsupply.class);
@@ -127,8 +127,10 @@ public class ManagerEJBBean implements ManagerEJBBeanLocal {
             if (carInList.getModel().getId() == car.getModel().getId())
                 findCar = carInList;
         }
-        int newCount = findCar.getCount() - car.getCount();
-        findCar.setCount(newCount);
+        if (autoBill.getMoney() >= finalPrice){
+            int newCount = findCar.getCount() - car.getCount();
+            findCar.setCount(newCount);
+        }
         emD.merge(findCar);
         Trade trade = new Trade(car.getCount(), supply, findCar);
         emD.persist(trade);

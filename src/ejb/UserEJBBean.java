@@ -10,6 +10,9 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -36,7 +39,7 @@ public class UserEJBBean implements UserEJBBeanLocal{
         CriteriaQuery<User> criteriaQuery = emU.getCriteriaBuilder().createQuery(User.class);
         Root userRoot = criteriaQuery.from(User.class);
         Predicate predicate1 = userRoot.get("login").in(login);
-        Predicate predicate2 = userRoot.get("password").in(password);
+        Predicate predicate2 = userRoot.get("password").in(getHash(password));
         criteriaQuery.select(userRoot).where(predicate1);
         criteriaQuery.select(userRoot).where(predicate2);
         List<User> listOfUsers = emU.createQuery(criteriaQuery).getResultList();
@@ -69,6 +72,7 @@ public class UserEJBBean implements UserEJBBeanLocal{
      */
     @Override
     public void registerNewManager(User user, int autosalonId){
+        user.setPassword(getHash(user.getPassword()));
         user.setAutosalon_id(autosalonId);
         user = emU.merge(user);
         Role managerRole = commonEJBBean.getRoleByTitle("Менеджер");
@@ -85,6 +89,8 @@ public class UserEJBBean implements UserEJBBeanLocal{
     public void dismissManager(User user){
         User userFind = emU.find(User.class, user.getId());
         emU.joinTransaction();
+        Role managerRole = userFind.getRoles().get(0);
+        managerRole.getUsers().remove(userFind);
         emU.remove(userFind);
         emU.flush();
     }
@@ -95,6 +101,7 @@ public class UserEJBBean implements UserEJBBeanLocal{
      */
     @Override
     public void registerNewClient(User user){
+        user.setPassword(getHash(user.getPassword()));
         Bill bill = new Bill(0, new Date());
         bill = emU.merge(bill);
         History history = new History("Инициализация", 0);
@@ -125,4 +132,26 @@ public class UserEJBBean implements UserEJBBeanLocal{
         return years;
     }
 
+    /**
+     * Шифрование MD5
+     * @param sInput - строка, которую надо зашифровать
+     * @return
+     */
+    public String getHash(String str) {
+        MessageDigest md5 ;
+        StringBuffer  hexString = new StringBuffer();
+        try {
+            md5 = MessageDigest.getInstance("md5");
+            md5.reset();
+            md5.update(str.getBytes());
+            byte messageDigest[] = md5.digest();
+            for (int i = 0; i < messageDigest.length; i++) {
+                hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+            }
+        }
+        catch (NoSuchAlgorithmException e) {
+            return e.toString();
+        }
+        return hexString.toString();
+    }
 }
